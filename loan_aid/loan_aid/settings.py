@@ -39,12 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'graphene_django',
     'corsheaders',
-    'loan_aid_py'
+    'loan_aid.loan_aid_py.offers',
+    'loan_aid.loan_aid_py.rates'
 ]
 
-
 GRAPHENE = {
-    'SCHEMA': 'loan_aid_py.schema.schema'
+    'SCHEMA': 'loan_aid.loan_aid_py.schema.schema'
 }
 
 MIDDLEWARE = [
