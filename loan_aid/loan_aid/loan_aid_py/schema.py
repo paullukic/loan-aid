@@ -1,8 +1,14 @@
 import graphene
+from graphene import relay
 from graphene_django import DjangoObjectType
+from graphene_django.filter import DjangoFilterConnectionField
+
+from django.db.models import Q
+import django_filters
 
 from loan_aid.loan_aid_py.rates.models import RateModel
 from loan_aid.loan_aid_py.offers.models import OfferModel
+
 
 
 class RateType(DjangoObjectType):
@@ -13,17 +19,23 @@ class RateType(DjangoObjectType):
 class OfferType(DjangoObjectType):
     class Meta:
         model = OfferModel
+        fields = ['loanAmount', 'downPayment', 'loanTerm']
+        interfaces = (relay.Node, )
+        use_connection = True
 
 class Query(graphene.ObjectType):
     rates = graphene.List(RateType)
-    offers = graphene.List(OfferType)
+    offers = graphene.List(OfferType, loanAmount=graphene.Int(), downPayment=graphene.Int(), loanTerm=graphene.Int())
     
     def resolve_rates(self, info):
         return RateModel.objects.all()
 
-    def resolve_offers(self, info):
-        return OfferModel.objects.all()
+    def resolve_offers(self, info, loanAmount=None, downPayment=None, loanTerm=None, **kwargs):
+        if (loanAmount and downPayment and loanTerm):
+            filter = (Q(loanAmount__lte=loanAmount) & Q(downPayment=downPayment) & Q(loanTerm=loanTerm))
+            return OfferModel.objects.filter(filter)
 
+        return OfferModel.objects.all()        
 
 class CreateRate(graphene.Mutation):
     id = graphene.Int()
