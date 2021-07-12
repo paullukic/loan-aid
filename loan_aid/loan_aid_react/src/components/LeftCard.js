@@ -35,7 +35,7 @@ export default function LeftCard(props) {
             {
                 loading ? 
                 <LeftCardResult text="Property Tax" value={0} /> :
-                <LeftCardResult text="Property Tax" value={data.rates[Math.floor(Math.random() * data.rates.length)].rate} />
+                <LeftCardResult text="Property Tax" value={data.rates.length ? data.rates[Math.floor(Math.random() * data.rates.length)].rate : '1.5'} />
             }
             
         </Box>
