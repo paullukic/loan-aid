@@ -4,7 +4,7 @@ Make sure you are in folder where manage.py is
 > ./loan_aid
 
 Make sure you have pip installed
-Run command
+Run command <br>
 `py -m pipenv`
 
 After virtual shell is loaded run command
@@ -16,8 +16,11 @@ Then we need to make backend migrations
 After that we can run our backend server
 
     py -m pipenv shell
+    
     python manage.py migrate
+    
     python manage.py makemigrations
+    
     python manage.py runserver
 
 Server should be running at
@@ -31,10 +34,10 @@ Go to folder
 
 > ./loan_aid/loan_aid_react
 
-Run code
+Run code <br>
 `npm install`
 
-And then
+And then <br>
 `npm start`
 
 App should be running at
