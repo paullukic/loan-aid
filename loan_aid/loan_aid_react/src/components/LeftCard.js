@@ -32,10 +32,10 @@ export default function LeftCard(props) {
             <LeftCardResult text="Loan Amount" value={props.loanAmount} />
             <LeftCardResult text="Down Payment" value={props.downPayment} />
             <LeftCardResult text="Loan Term" value={props.loanTerm} />
-            {
-                loading ? 
+            {   
+                loading && data === undefined ? 
                 <LeftCardResult text="Property Tax" value={0} /> :
-                <LeftCardResult text="Property Tax" value={data.rates.length ? data.rates[Math.floor(Math.random() * data.rates.length)].rate : '1.5'} />
+                <LeftCardResult text="Property Tax" value={data ? data.rates[Math.floor(Math.random() * data.rates.length)].rate : '1.5'} />
             }
             
         </Box>

@@ -56,15 +56,20 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'loan_aid.middleware.open_access_middleware'
 ]
 
-CORS_ORIGIN_WHITELIST = [
-    # "http://localhost:3000",
-    # "http://127.0.0.1:3000"
-    # your React App domain
-]
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+
+
+# CORS_ORIGIN_WHITELIST = [
+#     # "http://localhost:3000",
+#     # "http://127.0.0.1:3000"
+#     # your React App domain
+
+#     "Access-Control-Allow-Origin" ="*"
+# ]
 
 
 ROOT_URLCONF = 'loan_aid.urls'
