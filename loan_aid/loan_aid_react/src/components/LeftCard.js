@@ -20,6 +20,13 @@ export default function LeftCard(props) {
 
     const { data, loading } = useQuery( QUERY_RATES );
 
+    const rate = (data) => {
+        if (data && data.rates.length !== 0)
+            return data.rates[Math.floor(Math.random() * data.rates.length)].rate
+
+        else return '1.5'
+    }
+
     return (
         <Box style={{ maxWidth: '300px', color: 'rgba(0, 0, 0, 0.35)' }}>
             <Typography component="h1" variant="h5" align="center">
@@ -33,9 +40,9 @@ export default function LeftCard(props) {
             <LeftCardResult text="Down Payment" value={props.downPayment} />
             <LeftCardResult text="Loan Term" value={props.loanTerm} />
             {   
-                loading && data === undefined ? 
+                loading ? 
                 <LeftCardResult text="Property Tax" value={0} /> :
-                <LeftCardResult text="Property Tax" value={data ? data.rates[Math.floor(Math.random() * data.rates.length)].rate : '1.5'} />
+                <LeftCardResult text="Property Tax" value={rate(data)} />
             }
             
         </Box>
