@@ -119,7 +119,6 @@ const marks = (amountMin, amount) =>{
       ];
 }
 
-
 const makeCurrency = (currency) => {
     let symbol = '';
 

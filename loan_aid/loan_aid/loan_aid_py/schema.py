@@ -30,9 +30,9 @@ class Query(graphene.ObjectType):
     def resolve_rates(self, info):
         return RateModel.objects.all()
 
-    def resolve_offers(self, info, loanAmount=None, downPayment=None, loanTerm=None, **kwargs):
+    def resolve_offers(self, info, loanAmount=None, downPayment=None, loanTerm=None):
         if (loanAmount and downPayment and loanTerm):
-            filter = (Q(loanAmount__lte=loanAmount) & Q(downPayment=downPayment) & Q(loanTerm=loanTerm))
+            filter = (Q(loanAmount__lte=loanAmount) & Q(downPayment__lte=downPayment) & Q(loanTerm=loanTerm))
             return OfferModel.objects.filter(filter)
 
         return OfferModel.objects.all()        
