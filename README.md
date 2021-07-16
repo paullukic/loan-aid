@@ -43,3 +43,26 @@ And then <br>
 App should be running at
 
 > http://localhost:3000/
+
+Add data <br>
+> http://127.0.0.1:8000/graphql/
+`mutation {
+  createOffer(
+    loanAmount:400000
+    downPayment:10000
+    loanTerm:240
+  )
+  {
+    id
+    loanAmount
+    downPayment
+    loanTerm
+  }
+}`
+
+`mutation{
+  createRate(rate: "1.6"){
+    id
+		rate
+  }
+}`
