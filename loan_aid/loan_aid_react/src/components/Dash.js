@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -16,6 +16,8 @@ import MoneySlider from './Slider';
 import Jumbotron from './Jumbotron';
 import LeftCard from './LeftCard';
 import FormFooter from './FormFooter';
+import { useQuery } from 'react-apollo';
+import { gql } from 'apollo-boost';
 
 const useStyles = makeStyles((theme) => ({
     active: {
@@ -139,12 +141,48 @@ const makeCurrency = (currency) => {
     return symbol
 }
 
+const QUERY_RATES = gql`
+query{
+    rates{
+      id
+      rate
+    }
+  }
+`;
+
 export default function Dash() {
+
     const classes = useStyles();
     const [currency, setCurrency] = React.useState('USD');
+    const [loanAmount, setLoanAmount] = React.useState(50000);
+    const [downPayment, setDownPayment] = React.useState(10000);
+    const [loanTerm, setLoanTerm] = React.useState(20);
+    const [tax, setTax] = React.useState(1.5);
 
+    // setState from on data from child
+    const setData = (data, setter) => {
+        setter(data)
+    }
+
+    // get rates
+    const { data } = useQuery( QUERY_RATES );
+
+    // set one random rate
+    useEffect(() => {
+        if(data && data.rates.length !== 0){
+            let random = Math.floor(Math.random() * data.rates.length);
+            setTax(data.rates[random].rate)
+        }
+        else setTax(1.6)
+    }, [data]);
+
+    // calcualte payment
+    const calcPayment = () => {
+        return (Math.round((loanAmount - downPayment) / loanTerm) * (tax / 100)).toFixed(2)
+    }
+
+    // on button change currency
     const handleClickCurrency = (event) => {
-
         setCurrency(event.target.value ? event.target.value : event.target.textContent)
     }
 
@@ -178,24 +216,34 @@ export default function Dash() {
                             </Box>
                             
                             <Box display="block" m={2}>
-                                <MoneySlider text='Home Price' currency={makeCurrency(currency)} marks={marks(50000, 500000)} min={50000} max={500000} />
-                                <MoneySlider text='Down Payment 20%' currency={makeCurrency(currency)} marks={marks(10000, 100000)} min={10000} max={100000} />
-                                <MoneySlider text='Duration in Months' currency="months" marks={marks(20, 240)} min={20} max={240} />
+                                <MoneySlider text='Home Price' 
+                                    currency={makeCurrency(currency)} 
+                                    marks={marks(50000, 500000)} min={50000} max={500000} 
+                                    setData={setData, setLoanAmount}/>
+                                <MoneySlider text='Down Payment 20%' 
+                                    currency={makeCurrency(currency)} 
+                                    marks={marks(10000, 100000)} min={10000} max={100000} 
+                                    setData={setData, setDownPayment}/>
+                                <MoneySlider text='Duration in Months' 
+                                    currency="months" marks={marks(20, 240)} min={20} max={240} 
+                                    setData={setData, setLoanTerm}/>
                             </Box>
 
                             <Box mt={6}>
-                                <FormFooter />
+                                <FormFooter loanAmount={loanAmount}
+                                            downPayment={downPayment}
+                                            loanTerm={loanTerm}/>
                             </Box>
                             
                         </Container>
                     </Grid>
                     <Grid item className={classes.cardLeft}>
                         <LeftCard 
-                            estPayment={500}
-                            loanAmount={555}
-                            downPayment={545}
-                            loanTerm={22}
-                            tax={5}/>                        
+                            estPayment={calcPayment()}
+                            loanAmount={loanAmount}
+                            downPayment={downPayment}
+                            loanTerm={loanTerm}
+                            tax={tax}/>                        
                     </Grid>
                 </Grid>
             </Paper>

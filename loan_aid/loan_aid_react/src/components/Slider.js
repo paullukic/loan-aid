@@ -6,6 +6,7 @@ import Box from '@material-ui/core/Box';
 import { InputAdornment, FormControl, OutlinedInput } from '@material-ui/core';
 
 export default function MoneySlider(props) {
+
     const [value, setValue] = React.useState(0);
     const [inputValue, setInputValue] = React.useState(props.min);
 
@@ -20,11 +21,13 @@ export default function MoneySlider(props) {
     const handleSliderChange = (event, newValue) => {
         setInputValue(calcPercentage(newValue))
         setValue(newValue)
+        props.setData(inputValue)
     };
 
     const handleInputChange = (event) => {
         setValue(event.target.value === '' ? '' : getPercentage(event.target.value));
         setInputValue(event.target.value === '' ? '' : event.target.value)
+        props.setData(inputValue)
     };
 
     const handleBlur = () => {
@@ -44,11 +47,10 @@ export default function MoneySlider(props) {
                         marks={props.marks}
                         value={typeof value === 'number' ? value : 0}
                         onChange={handleSliderChange}
-
                     />
                 </Grid>
                 <Grid item>
-                    <FormControl variant="outlined" style={{ maxWidth: '120px', minWidth: '120px' }}>
+                    <FormControl variant="outlined" style={{ maxWidth: '130px', minWidth: '130px' }}>
                         <OutlinedInput
                             id="currency"
                             endAdornment={<InputAdornment position="end">{props.currency}</InputAdornment>}

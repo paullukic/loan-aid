@@ -8,7 +8,7 @@ export default function LeftCardResult(props) {
                 {props.text}
             </Typography>
             <Typography component="h1" variant="h4" align="center" style={{color:'black'}}>
-                {props.value}
+                {props.value.toLocaleString()}
             </Typography>
             <hr style={{height:'1px', borderWidth:'0 !important', color:'rgba(0, 0, 0, 0.35)',backgroundColor:'rgba(0, 0, 0, 0.35)'}}/>
         </div>

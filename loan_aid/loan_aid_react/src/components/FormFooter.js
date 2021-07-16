@@ -7,12 +7,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
-import CircularProgress from '@material-ui/core/CircularProgress';
-
-import { useQuery } from 'react-apollo';
-import { gql } from 'apollo-boost';
-
-import OfferCard from './OfferCard';
+import OffersModal from './OffersModal';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -28,51 +23,9 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-
-    const QUERY_OFFERS = () => gql`
-        query{
-            offers(loanAmount: $loanAmount, downPayment: $downPayment}, loanTerm: $loanTerm){
-            id
-            loanAmount
-            downPayment
-            loanTerm
-            }
-        }
-    `;
-
 export default function FormFooter(props) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    
-
-    const offers = (loanAmount, downPayment, loanTerm) => {
-        const { data, loading, error } = useQuery( QUERY_OFFERS, {
-            variables: {loanAmount, downPayment, loanTerm}
-        } );
-
-        if (loading) return <CircularProgress />;
-        if (error) return `Error!`;
-
-        if (data && data.offers.length !== 0){
-            let offerArray = [];
-
-            data.offers.forEach(offer => {
-                if(offerArray.length < 4)
-                offerArray.push(offer)
-            })
-               
-            return (
-                offerArray.forEach(offer => {
-                    <OfferCard 
-                    loanAmount={offers(offer.loanAmount)}
-                    downPayment={offers(offer.downPayment)}
-                    loanTerm={offers(offer.loanTerm)}/>
-                })
-            );
-        }
-
-        else return 'No Offers'
-    }
 
     const handleOpen = () => {
         setOpen(true);
@@ -101,8 +54,10 @@ export default function FormFooter(props) {
                 }}
             >
                 <Fade in={open}>
-                    <Box>
-                        {offers(props.loanAmount, props.downPayment, props.loanTerm)}
+                    <Box style={{width: '500px'}}>
+                        <OffersModal loanAmount={props.loanAmount}
+                            downPayment={props.downPayment}
+                            loanTerm={props.loanTerm}/>
                     </Box>
                 </Fade>
             </Modal>

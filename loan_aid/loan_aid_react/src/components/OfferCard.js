@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
+    margin: '10px'
   },
   title: {
     fontSize: 14,
@@ -24,16 +25,14 @@ export default function OfferCard(props) {
   return (
     <Card className={classes.root}>
       <CardContent>
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
-          Loan Amount
+        <Typography className={classes.title} color="textSecondary">
+          Loan Amount: <span style={{color: 'black'}}>{props.loanAmount.toLocaleString()}</span>
         </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          Down Payment
+        <Typography className={classes.title} color="textSecondary" >
+          Down Payment: <span style={{color: 'black'}}>{props.downPayment.toLocaleString()}</span>
         </Typography>
-        <Typography variant="body2" component="p">
-          Loan Term
-          <br />
-          {'"a benevolent smile"'}
+        <Typography className={classes.title} color="textSecondary" >
+          Loan Term: <span style={{color: 'black'}}>{props.loanTerm}</span>
         </Typography>
       </CardContent>
       <CardActions>

@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './components/Header';
 import Dash from './components/Dash';
-import ApolloClient from 'apollo-boost';
+import ApolloClient,{ InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import { createTheme, ThemeProvider, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -10,6 +10,7 @@ import Container from '@material-ui/core/Container';
 
 const client = new ApolloClient({
   uri: 'http://localhost:8000/graphql/', // your GraphQL Server 
+  cache: new InMemoryCache()
 });
 
 const theme = createTheme({
@@ -87,7 +88,6 @@ const App = () => (
         <Dash />
       </ThemeProvider>
     </Container>
-
   </ApolloProvider>
 );
 export default App;
