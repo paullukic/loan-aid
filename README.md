@@ -45,7 +45,9 @@ App should be running at
 > http://localhost:3000/
 
 Add data <br>
-> http://127.0.0.1:8000/graphql/
+> http://127.0.0.1:8000/graphql/ <br>
+
+Add offers <br>
 `mutation {
   createOffer(
     loanAmount:400000
@@ -59,7 +61,7 @@ Add data <br>
     loanTerm
   }
 }`
-
+<br>Add rates (tax) <br>
 `mutation{
   createRate(rate: "1.6"){
     id
